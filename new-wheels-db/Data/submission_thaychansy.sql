@@ -18,13 +18,13 @@ the project in the SQL file
      [Q1] What is the distribution of customers across states?
      Hint: For each state, count the number of customers.*/
 
--- 1) Investigate the customer table 
+-- Investigate the customer table 
 -- SELECT * FROM customer_t;
 
--- 2) Count the number of states
+-- Count the number of states
 -- SELECT count(state) AS state_count FROM customer_t;
 
--- 3) Answer: Perform the query to find the distribution of customers across state
+-- Answer: Perform the query to find the distribution of customers across state
 SELECT customer_name, 
 	state, 
     COUNT(*) OVER (PARTITION BY state) AS state_count
@@ -43,10 +43,10 @@ Hint: Use a common table expression and in that CTE, assign numbers to the diffe
 Note: For reference, refer to question number 4. Week-2: mls_week-2_gl-beats_solution-1.sql. 
       You'll get an overview of how to use common table expressions from this question.*/
 
--- 1) Investigate the customer table 
+-- Investigate the customer table 
 -- SELECT * From order_t;
 
--- 2) Answer: Perfrom sub-query to assign numeric values for customer_feeback and use CTE to find average feedback
+-- Answer: Perfrom sub-query to assign numeric values for customer_feeback and use CTE to find average feedback
 select * from order_t;
 
 WITH feedback_sel AS (
@@ -79,10 +79,10 @@ Hint: Need the percentage of different types of customer feedback in each quarte
 Note: For reference, refer to question number 4. Week-2: mls_week-2_gl-beats_solution-1.sql. 
       You'll get an overview of how to use common table expressions from this question.*/
       
--- 1) Investigate the order_t table 
+-- Investigate the order_t table 
 -- SELECT * FROM order_t;
 
--- 2) Answer: 
+-- Answer: 
 
 WITH feedback_sel AS (
 SELECT
@@ -135,11 +135,14 @@ LIMIT 5;
 Hint: Use the window function RANK() to rank based on the count of customers for each state and vehicle maker. 
 After ranking, take the vehicle maker whose rank is 1.*/
 
+-- Answer: 
+select count(order_id) from order_t;  
 
 WITH cust_order AS
 (
 SELECT ot.customer_id, 
-    pt.vehicle_maker
+    pt.vehicle_maker,
+    count(ot.customer_id) OVER(PARTITION BY pt.vehicle_maker) AS car_count
 FROM order_t AS ot
 JOIN product_t AS pt
 ON ot.product_id = pt.product_id
@@ -147,11 +150,12 @@ ON ot.product_id = pt.product_id
 SELECT 
 c.state,
 co.vehicle_maker,
-COUNT(co.vehicle_maker) OVER(PARTITION By co.vehicle_maker) as count
+car_count,
+RANK() OVER(PARTITION by c.state ORDER BY car_count) as ranking
 FROM cust_order AS co
 JOIN customer_t AS c
 ON co.customer_id = c.customer_id
-ORDER BY c.state, co.vehicle_maker;
+ORDER BY c.state, ranking;
 
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
