@@ -169,10 +169,9 @@ Hint: Count the number of orders for each quarter.*/
 -- Answer: 
 SELECT
 	distinct quarter_number,
-    count(*) OVER(PARTITION BY quarter_number) AS orders_by_quarter
+    sum(quantity) OVER(PARTITION BY quarter_number) AS orders_by_quarter
 FROM order_t;
     
-
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
 /* [Q7] What is the quarter over quarter % change in revenue? 
@@ -181,17 +180,24 @@ Hint: Quarter over Quarter percentage change in revenue means what is the change
       To calculate you need to use the common table expression to find out the sum of revenue for each quarter.
       Then use that CTE along with the LAG function to calculate the QoQ percentage change in revenue.
 */
-      SELECT * from order_t;
-      
-      
-      
-      
 
+SELECT * from order_t;
+
+               
+	
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
 /* [Q8] What is the trend of revenue and orders by quarters?
 
 Hint: Find out the sum of revenue and count the number of orders for each quarter.*/
+
+-- Asnwer: 
+
+SELECT
+	distinct quarter_number,
+    sum(vehicle_price * quantity) OVER (PARTITION BY quarter_number) AS revenue, 
+    sum(quantity) OVER(PARTITION BY quarter_number) AS orders_by_quarter
+FROM order_t;
 
 
 
@@ -202,7 +208,14 @@ Hint: Find out the sum of revenue and count the number of orders for each quarte
 
 Hint: Find out the average of discount for each credit card type.*/
 
+-- Answer:
 
+SELECT 
+	distinct ct.credit_card_type,
+	AVG(ot.discount) OVER(PARTITION BY ct.credit_card_type) AS avg_discount_per_credit_type
+FROM customer_t AS ct
+JOIN order_t AS ot
+ON ct.customer_id = ot.customer_id;
 
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
@@ -211,6 +224,10 @@ Hint: Find out the average of discount for each credit card type.*/
 	Hint: Use the dateiff function to find the difference between the ship date and the order date.
 */
 
+SELECT
+  AVG(DATEDIFF(ship_date, order_date)) AS avg_days
+FROM order_t;
+ 
 
 -- --------------------------------------------------------Done----------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------------------------------------
