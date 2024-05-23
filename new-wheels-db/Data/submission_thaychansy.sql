@@ -128,12 +128,6 @@ GROUP BY vehicle_maker
 ORDER BY top_5 DESC 
 LIMIT 5;
 
-
-
-    
-
-
-
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
 /*[Q5] What is the most preferred vehicle make in each state?
