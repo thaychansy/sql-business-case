@@ -148,9 +148,9 @@ JOIN product_t AS pt
 ON ot.product_id = pt.product_id
 )
 SELECT 
-c.state,
-co.vehicle_maker,
-car_count,
+	c.state,
+	co.vehicle_maker,
+	car_count,
 RANK() OVER(PARTITION by c.state ORDER BY car_count) as ranking
 FROM cust_order AS co
 JOIN customer_t AS c
@@ -166,7 +166,12 @@ ORDER BY c.state, ranking;
 
 Hint: Count the number of orders for each quarter.*/
 
-
+-- Answer: 
+SELECT
+	distinct quarter_number,
+    count(*) OVER(PARTITION BY quarter_number) AS orders_by_quarter
+FROM order_t;
+    
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -176,6 +181,9 @@ Hint: Quarter over Quarter percentage change in revenue means what is the change
       To calculate you need to use the common table expression to find out the sum of revenue for each quarter.
       Then use that CTE along with the LAG function to calculate the QoQ percentage change in revenue.
 */
+      SELECT * from order_t;
+      
+      
       
       
 
