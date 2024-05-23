@@ -18,12 +18,6 @@ the project in the SQL file
      [Q1] What is the distribution of customers across states?
      Hint: For each state, count the number of customers.*/
 
--- Investigate the customer table 
--- SELECT * FROM customer_t;
-
--- Count the number of states
--- SELECT count(state) AS state_count FROM customer_t;
-
 -- Answer: Perform the query to find the distribution of customers across state
 SELECT customer_name, 
 	state, 
@@ -42,9 +36,6 @@ Hint: Use a common table expression and in that CTE, assign numbers to the diffe
 
 Note: For reference, refer to question number 4. Week-2: mls_week-2_gl-beats_solution-1.sql. 
       You'll get an overview of how to use common table expressions from this question.*/
-
--- Investigate the customer table 
--- SELECT * From order_t;
 
 -- Answer: Perfrom sub-query to assign numeric values for customer_feeback and use CTE to find average feedback
 select * from order_t;
@@ -66,7 +57,6 @@ FROM feedback_sel
 GROUP BY 1
 ORDER BY 1;
 	
-
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
 /* [Q3] Are customers getting more dissatisfied over time?
@@ -79,11 +69,7 @@ Hint: Need the percentage of different types of customer feedback in each quarte
 Note: For reference, refer to question number 4. Week-2: mls_week-2_gl-beats_solution-1.sql. 
       You'll get an overview of how to use common table expressions from this question.*/
       
--- Investigate the order_t table 
--- SELECT * FROM order_t;
-
 -- Answer: 
-
 WITH feedback_sel AS (
 SELECT
 		quarter_number,
@@ -118,7 +104,6 @@ ORDER BY 1,3;
 Hint: For each vehicle make what is the count of the customers.*/
 
 -- Answer: 
-
 SELECT
 	pt.vehicle_maker,
     COUNT(ot.product_id) top_5
@@ -157,7 +142,6 @@ JOIN customer_t AS c
 ON co.customer_id = c.customer_id
 ORDER BY c.state, ranking;
 
-
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
 /*QUESTIONS RELATED TO REVENUE and ORDERS 
@@ -181,10 +165,21 @@ Hint: Quarter over Quarter percentage change in revenue means what is the change
       Then use that CTE along with the LAG function to calculate the QoQ percentage change in revenue.
 */
 
-SELECT * from order_t;
+-- Asnwer: 
+WITH quarter_revenue AS (
+SELECT
+	distinct quarter_number,
+    sum(vehicle_price * quantity) AS revenue
+    FROM order_t
+    GROUP BY 1
+    ORDER BY 1
+    )
+SELECT
+	quarter_number,
+    revenue,
+    (revenue - LAG(revenue) OVER (ORDER BY quarter_number)) / LAG(revenue) OVER (ORDER BY quarter_number) * 100 AS qoq_percent_change
+FROM quarter_revenue;
 
-               
-	
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
 /* [Q8] What is the trend of revenue and orders by quarters?
@@ -192,14 +187,11 @@ SELECT * from order_t;
 Hint: Find out the sum of revenue and count the number of orders for each quarter.*/
 
 -- Asnwer: 
-
 SELECT
 	distinct quarter_number,
     sum(vehicle_price * quantity) OVER (PARTITION BY quarter_number) AS revenue, 
     sum(quantity) OVER(PARTITION BY quarter_number) AS orders_by_quarter
 FROM order_t;
-
-
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -209,7 +201,6 @@ FROM order_t;
 Hint: Find out the average of discount for each credit card type.*/
 
 -- Answer:
-
 SELECT 
 	distinct ct.credit_card_type,
 	AVG(ot.discount) OVER(PARTITION BY ct.credit_card_type) AS avg_discount_per_credit_type
@@ -224,6 +215,7 @@ ON ct.customer_id = ot.customer_id;
 	Hint: Use the dateiff function to find the difference between the ship date and the order date.
 */
 
+-- Answer: 
 SELECT
   AVG(DATEDIFF(ship_date, order_date)) AS avg_days
 FROM order_t;
