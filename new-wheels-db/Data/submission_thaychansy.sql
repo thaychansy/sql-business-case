@@ -46,7 +46,7 @@ Note: For reference, refer to question number 4. Week-2: mls_week-2_gl-beats_sol
 -- 1) Investigate the customer table 
 -- SELECT * From order_t;
 
--- 2 Answer: Perfrom sub-query to assign numeric values for customer_feeback and use CTE to find average feedback
+-- 2) Answer: Perfrom sub-query to assign numeric values for customer_feeback and use CTE to find average feedback
 select * from order_t;
 
 WITH feedback_sel AS (
@@ -79,7 +79,10 @@ Hint: Need the percentage of different types of customer feedback in each quarte
 Note: For reference, refer to question number 4. Week-2: mls_week-2_gl-beats_solution-1.sql. 
       You'll get an overview of how to use common table expressions from this question.*/
       
-SELECT * FROM order_t;
+-- 1) Investigate the order_t table 
+-- SELECT * FROM order_t;
+
+-- 2) Answer: 
 
 WITH feedback_sel AS (
 SELECT
@@ -113,6 +116,21 @@ ORDER BY 1,3;
 /*[Q4] Which are the top 5 vehicle makers preferred by the customer.
 
 Hint: For each vehicle make what is the count of the customers.*/
+
+-- Answer: 
+
+SELECT
+	pt.vehicle_maker,
+    COUNT(ot.product_id) top_5
+FROM product_t AS pt JOIN order_t AS ot
+	USING(product_id)
+GROUP BY vehicle_maker
+ORDER BY top_5 DESC 
+LIMIT 5;
+
+
+
+    
 
 
 
