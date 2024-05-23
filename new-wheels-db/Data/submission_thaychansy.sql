@@ -86,7 +86,6 @@ FROM order_t
 
  GROUP BY 1,2
     )
-
 SELECT 
 	fs.quarter_number,
     fs.customer_feedback,
@@ -121,8 +120,6 @@ Hint: Use the window function RANK() to rank based on the count of customers for
 After ranking, take the vehicle maker whose rank is 1.*/
 
 -- Answer: 
-select count(order_id) from order_t;  
-
 WITH cust_order AS
 (
 SELECT ot.customer_id, 
