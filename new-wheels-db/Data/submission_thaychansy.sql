@@ -136,6 +136,23 @@ Hint: Use the window function RANK() to rank based on the count of customers for
 After ranking, take the vehicle maker whose rank is 1.*/
 
 
+WITH cust_order AS
+(
+SELECT ot.customer_id, 
+    pt.vehicle_maker
+FROM order_t AS ot
+JOIN product_t AS pt
+ON ot.product_id = pt.product_id
+)
+SELECT 
+c.state,
+co.vehicle_maker,
+COUNT(co.vehicle_maker) OVER(PARTITION By co.vehicle_maker) as count
+FROM cust_order AS co
+JOIN customer_t AS c
+ON co.customer_id = c.customer_id
+ORDER BY c.state, co.vehicle_maker;
+
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
