@@ -118,9 +118,9 @@ LIMIT 5;
 Hint: Use the window function RANK() to rank based on the count of customers for each state and vehicle maker. 
 After ranking, take the vehicle maker whose rank is 1.*/
 
--- Answer: Rank count of customers for each state and vehicle
+-- Answer: Rank count of customers for each state and vehicle. Use CTE with nested query in order to achieve the expected results
 
-SELECT state, vehicle_maker
+SELECT distinct state, vehicle_maker
 FROM (
 WITH cust_order AS
 (
