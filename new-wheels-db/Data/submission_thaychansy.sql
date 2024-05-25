@@ -140,7 +140,7 @@ FROM cust_order AS co
 JOIN customer_t AS c
 ON co.customer_id = c.customer_id
 ORDER BY c.state, ranking
-) as ranked_data
+) AS ranked_data
 WHERE ranking = 1;
 
 
