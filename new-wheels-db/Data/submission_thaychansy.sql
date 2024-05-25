@@ -23,7 +23,8 @@ the project in the SQL file
 SELECT 
 	distinct state, 
     COUNT(*) OVER (PARTITION BY state) AS state_count
-FROM customer_t;
+FROM customer_t 
+ORDER BY state_count DESC;
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -69,30 +70,27 @@ Note: For reference, refer to question number 4. Week-2: mls_week-2_gl-beats_sol
       You'll get an overview of how to use common table expressions from this question.*/
       
 -- Answer: 
-WITH feedback_sel AS (
-SELECT
-		quarter_number,
-        customer_feedback,
-     	CASE WHEN customer_feedback = 'Very Bad' THEN 1
-		WHEN customer_feedback = 'Bad' THEN 2
-		WHEN customer_feedback = 'Okay' THEN 3
-		WHEN customer_feedback = 'Good' THEN 4
-		WHEN customer_feedback = 'Very Good' THEN 5
-		end AS feedback,
-		count(*) AS feedback_count,
-        sum(count(*)) OVER (PARTITION BY quarter_number) AS total_count
+WITH feedback_final AS (
+SELECT  quarter_number,
+	    SUM(CASE WHEN customer_feedback = 'Very Good' then 1 ELSE 0 END) AS very_good,
+        SUM(CASE WHEN customer_feedback = 'Good' then 1 ELSE 0 END) AS good,
+        SUM(CASE WHEN customer_feedback = 'Okay' then 1 ELSE 0 END) AS okay,
+        SUM(CASE WHEN customer_feedback = 'Bad' then 1 ELSE 0 END) AS bad,
+        SUM(CASE WHEN customer_feedback = 'Very BAD' then 1 ELSE 0 END) AS very_bad,
+        COUNT(customer_feedback) AS total_feedback
 FROM order_t
+GROUP BY 1)
 
- GROUP BY 1,2
-    )
-SELECT 
-	fs.quarter_number,
-    fs.customer_feedback,
-    fs.feedback,
-    fs.feedback_count,
-    (fs.feedback_count * 1.0 / fs.total_count) * 100 AS feedback_percentage
-FROM feedback_sel AS fs
-ORDER BY 1,3;	
+SELECT quarter_number,
+	   100*(very_good/total_feedback) AS per_ver_good,
+       100*(good/total_feedback) AS per_good,
+       100*(okay/total_feedback) AS per_okay,
+       100*(bad/total_feedback) AS per_bad,
+       100*(very_bad/total_feedback) AS per_very_bad
+FROM feedback_final
+ORDER BY 1;
+
+
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -105,7 +103,7 @@ SELECT
 	pt.vehicle_maker,
     COUNT(ot.product_id) AS top_5
 FROM product_t AS pt 
-JOIN order_t AS ot
+INNER JOIN order_t AS ot
 USING(product_id)
 GROUP BY vehicle_maker
 ORDER BY top_5 DESC
@@ -120,30 +118,26 @@ After ranking, take the vehicle maker whose rank is 1.*/
 
 -- Answer: Rank count of customers for each state and vehicle. Use CTE with nested query in order to achieve the expected results
 
-SELECT 
-	distinct state, 
-	vehicle_maker
-FROM (
-WITH cust_order AS
-(
-SELECT ot.customer_id, 
-    pt.vehicle_maker,
-    count(ot.customer_id) OVER(PARTITION BY pt.vehicle_maker) AS car_count
-FROM order_t AS ot
-JOIN product_t AS pt
-ON ot.product_id = pt.product_id
-)
-SELECT 
-	c.state,
-	co.vehicle_maker,
-	car_count,
-RANK() OVER(PARTITION by c.state ORDER BY car_count DESC) as ranking
-FROM cust_order AS co
-JOIN customer_t AS c
-ON co.customer_id = c.customer_id
-ORDER BY c.state, ranking
-) AS ranked_data
-WHERE ranking = 1;
+WITH FINAL AS (
+SELECT C.state,
+	   P.vehicle_maker,
+       COUNT(C.customer_id) AS CNT_CUST
+FROM customer_t C 
+INNER JOIN order_t O
+ON C.customer_id = O.customer_id
+INNER JOIN product_t P
+ON O.product_id =P.product_id
+
+GROUP BY 1,2),
+FINAL_RANK AS (
+SELECT *, DENSE_RANK() OVER( PARTITION BY STATE ORDER BY CNT_CUST DESC) AS DRNK
+FROM FINAL)
+
+SELECT STATE, 
+	   vehicle_maker,
+	   CNT_CUST
+FROM FINAL_RANK
+WHERE DRNK = 1;
 
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
@@ -157,8 +151,9 @@ Hint: Count the number of orders for each quarter.*/
 -- Answer: 
 SELECT
 	distinct quarter_number,
-    sum(quantity) OVER(PARTITION BY quarter_number) AS orders_by_quarter
+    count(quantity) OVER(PARTITION BY quarter_number) AS orders_by_quarter
 FROM order_t;
+
     
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -170,19 +165,15 @@ Hint: Quarter over Quarter percentage change in revenue means what is the change
 */
 
 -- Asnwer: 
-WITH quarter_revenue AS (
-SELECT
-	distinct quarter_number,
-    sum(vehicle_price * quantity) AS revenue
-    FROM order_t
-    GROUP BY 1
-    ORDER BY 1
-    )
-SELECT
-	quarter_number,
-    revenue,
-    (revenue - LAG(revenue) OVER (ORDER BY quarter_number)) / LAG(revenue) OVER (ORDER BY quarter_number) * 100 AS qoq_percent_change
-FROM quarter_revenue;
+WITH QUARTER_REV AS (
+SELECT quarter_number,
+	   SUM(quantity *(vehicle_price - ((discount/100)*vehicle_price))) AS TOTAL_REVENUE
+FROM order_t
+GROUP BY 1
+ORDER BY 1   )
+
+SELECT *, 100*((TOTAL_REVENUE - LAG(TOTAL_REVENUE) OVER(ORDER BY quarter_number)))/(LAG(TOTAL_REVENUE)OVER(ORDER BY quarter_number)) AS PERC_QOQ
+FROM  QUARTER_REV;  
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -191,11 +182,12 @@ FROM quarter_revenue;
 Hint: Find out the sum of revenue and count the number of orders for each quarter.*/
 
 -- Asnwer: 
-SELECT
-	distinct quarter_number,
-    sum(vehicle_price * quantity) OVER (PARTITION BY quarter_number) AS revenue, 
-    sum(quantity) OVER(PARTITION BY quarter_number) AS orders_by_quarter
-FROM order_t;
+SELECT quarter_number,
+	   SUM(quantity *(vehicle_price - ((discount/100)*vehicle_price))) AS TOTA_REVENUE,
+       COUNT(order_id) AS TOTAL_ORDERS
+FROM order_t
+GROUP BY 1
+ORDER BY 1;
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -209,8 +201,9 @@ SELECT
 	distinct ct.credit_card_type,
 	AVG(ot.discount) OVER(PARTITION BY ct.credit_card_type) AS avg_discount_per_credit_type
 FROM customer_t AS ct
-JOIN order_t AS ot
-ON ct.customer_id = ot.customer_id;
+INNER JOIN order_t AS ot
+ON ct.customer_id = ot.customer_id
+ORDER BY 2 DESC;
 
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
