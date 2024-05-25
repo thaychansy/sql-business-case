@@ -23,4 +23,7 @@ You have data on the vehicles you sell: what is the make, model, and year? What 
 
 The data dictionary (new_wheels_sales.txt), which has detailed descriptions of each column, and the dump file (new_wheels_dumpfile.sql), can be found in the same data folder. The new wheels_proj.rar file contains the data folder and the diagram folder which contains the ER diagram.
 
+# PowerPoint Presentation
+
+https://github.com/thaychansy/sql-business-case/blob/main/new-wheels-db/SQL_Dastbase_Project_Report.pptx
 
