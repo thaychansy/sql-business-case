@@ -25,5 +25,8 @@ The data dictionary (new_wheels_sales.txt), which has detailed descriptions of e
 
 # PowerPoint Presentation
 
+<img width="662" alt="image" src="https://github.com/thaychansy/sql-business-case/assets/161902555/a767c9af-59c5-4052-8530-b7fd2547044d">
+
+
 https://github.com/thaychansy/sql-business-case/blob/main/new-wheels-db/SQL_Dastbase_Project_Report.pptx
 
