@@ -221,9 +221,12 @@ ON ct.customer_id = ot.customer_id;
 
 -- Answer: 
 SELECT
-  AVG(DATEDIFF(ship_date, order_date)) AS avg_days
+	distinct quarter_number,
+  AVG(DATEDIFF(ship_date, order_date)) OVER (PARTITION BY quarter_number) AS avg_ship_days
 FROM order_t;
+
  
+
 
 -- --------------------------------------------------------Done----------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------------------------------------
