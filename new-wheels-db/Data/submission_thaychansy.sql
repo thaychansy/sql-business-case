@@ -120,7 +120,9 @@ After ranking, take the vehicle maker whose rank is 1.*/
 
 -- Answer: Rank count of customers for each state and vehicle. Use CTE with nested query in order to achieve the expected results
 
-SELECT distinct state, vehicle_maker
+SELECT 
+	distinct state, 
+	vehicle_maker
 FROM (
 WITH cust_order AS
 (
