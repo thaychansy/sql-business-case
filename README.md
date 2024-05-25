@@ -23,8 +23,4 @@ You have data on the vehicles you sell: what is the make, model, and year? What 
 
 The data dictionary (new_wheels_sales.txt), which has detailed descriptions of each column, and the dump file (new_wheels_dumpfile.sql), can be found in the same data folder. The new wheels_proj.rar file contains the data folder and the diagram folder which contains the ER diagram.
 
-# Solution Approach: 
 
-Download the dump file present on Olympus and import it into MySQL.
-You can find the questions that need to be answered for the business in the project guideline document-submission_myname.sql.
-Once these questions have been answered by writing SQL queries, you can use those results to create the Quarterly Business Report. Use the results from the queries* to generate visuals in Excel. A template report, new_wheels_sample_QBR_template.pdf, has been uploaded to this module.
