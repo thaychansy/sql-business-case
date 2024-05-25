@@ -30,3 +30,8 @@ The data dictionary (new_wheels_sales.txt), which has detailed descriptions of e
 
 https://github.com/thaychansy/sql-business-case/blob/main/new-wheels-db/SQL_Dastbase_Project_Report.pptx
 
+# Website
+
+Please visit my Portfolio Page: thaychansy.github.io (https://thaychansy.github.io/)
+
+
