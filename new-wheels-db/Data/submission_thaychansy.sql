@@ -94,7 +94,6 @@ SELECT
 FROM feedback_sel AS fs
 ORDER BY 1,3;	
 
-
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
 /*[Q4] Which are the top 5 vehicle makers preferred by the customer.
@@ -120,6 +119,9 @@ Hint: Use the window function RANK() to rank based on the count of customers for
 After ranking, take the vehicle maker whose rank is 1.*/
 
 -- Answer: Rank count of customers for each state and vehicle
+
+SELECT state, vehicle_maker
+FROM (
 WITH cust_order AS
 (
 SELECT ot.customer_id, 
@@ -133,11 +135,14 @@ SELECT
 	c.state,
 	co.vehicle_maker,
 	car_count,
-RANK() OVER(PARTITION by c.state ORDER BY car_count) as ranking
+RANK() OVER(PARTITION by c.state ORDER BY car_count DESC) as ranking
 FROM cust_order AS co
 JOIN customer_t AS c
 ON co.customer_id = c.customer_id
-ORDER BY c.state, ranking;
+ORDER BY c.state, ranking
+) as ranked_data
+WHERE ranking = 1;
+
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
