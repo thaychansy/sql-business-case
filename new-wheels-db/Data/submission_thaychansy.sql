@@ -19,12 +19,11 @@ the project in the SQL file
      Hint: For each state, count the number of customers.*/
 
 -- Answer: Perform the query to find the distribution of customers across state
-SELECT customer_name, 
-	state, 
+
+SELECT 
+	distinct state, 
     COUNT(*) OVER (PARTITION BY state) AS state_count
-FROM customer_t
-GROUP BY 1, 2
-ORDER BY state_count DESC; 
+FROM customer_t;
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -102,14 +101,15 @@ ORDER BY 1,3;
 
 Hint: For each vehicle make what is the count of the customers.*/
 
--- Answer: 
+-- Answer: Joining product_t and order_t to retrieve top 5 vehicle makers preferred by the customer
 SELECT
 	pt.vehicle_maker,
-    COUNT(ot.product_id) top_5
-FROM product_t AS pt JOIN order_t AS ot
-	USING(product_id)
+    COUNT(ot.product_id) AS top_5
+FROM product_t AS pt 
+JOIN order_t AS ot
+USING(product_id)
 GROUP BY vehicle_maker
-ORDER BY top_5 DESC 
+ORDER BY top_5 DESC
 LIMIT 5;
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
@@ -119,7 +119,7 @@ LIMIT 5;
 Hint: Use the window function RANK() to rank based on the count of customers for each state and vehicle maker. 
 After ranking, take the vehicle maker whose rank is 1.*/
 
--- Answer: 
+-- Answer: Rank count of customers for each state and vehicle
 WITH cust_order AS
 (
 SELECT ot.customer_id, 
