@@ -118,10 +118,10 @@ After ranking, take the vehicle maker whose rank is 1.*/
 
 -- Answer: Rank count of customers for each state and vehicle. Use CTE with nested query in order to achieve the expected results
 
-WITH FINAL AS (
+WITH final AS (
 SELECT C.state,
 	   P.vehicle_maker,
-       COUNT(C.customer_id) AS CNT_CUST
+       COUNT(C.customer_id) AS cnt_cust
 FROM customer_t C 
 INNER JOIN order_t O
 ON C.customer_id = O.customer_id
@@ -129,15 +129,16 @@ INNER JOIN product_t P
 ON O.product_id =P.product_id
 
 GROUP BY 1,2),
-FINAL_RANK AS (
-SELECT *, DENSE_RANK() OVER( PARTITION BY STATE ORDER BY CNT_CUST DESC) AS DRNK
-FROM FINAL)
+final_rank AS (
+SELECT *, DENSE_RANK() OVER( PARTITION BY STATE ORDER BY CNT_CUST DESC) AS drnk
+FROM final)
 
-SELECT STATE, 
+SELECT state, 
 	   vehicle_maker,
-	   CNT_CUST
-FROM FINAL_RANK
-WHERE DRNK = 1;
+	   cnt_cust,
+       drnk
+FROM final_rank
+WHERE drnk = 1;
 
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
@@ -165,15 +166,15 @@ Hint: Quarter over Quarter percentage change in revenue means what is the change
 */
 
 -- Asnwer: 
-WITH QUARTER_REV AS (
+WITH quarter_rev AS (
 SELECT quarter_number,
-	   SUM(quantity *(vehicle_price - ((discount/100)*vehicle_price))) AS TOTAL_REVENUE
+	   SUM(quantity *(vehicle_price - ((discount/100)*vehicle_price))) AS total_revenue
 FROM order_t
 GROUP BY 1
 ORDER BY 1   )
 
-SELECT *, 100*((TOTAL_REVENUE - LAG(TOTAL_REVENUE) OVER(ORDER BY quarter_number)))/(LAG(TOTAL_REVENUE)OVER(ORDER BY quarter_number)) AS PERC_QOQ
-FROM  QUARTER_REV;  
+SELECT *, 100*((total_revenue - LAG(total_revenue) OVER(ORDER BY quarter_number)))/(LAG(total_revenue)OVER(ORDER BY quarter_number)) AS perc_qoq
+FROM  quarter_rev;  
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -183,8 +184,8 @@ Hint: Find out the sum of revenue and count the number of orders for each quarte
 
 -- Asnwer: 
 SELECT quarter_number,
-	   SUM(quantity *(vehicle_price - ((discount/100)*vehicle_price))) AS TOTA_REVENUE,
-       COUNT(order_id) AS TOTAL_ORDERS
+	   SUM(quantity *(vehicle_price - ((discount/100)*vehicle_price))) AS total_revenue,
+       COUNT(order_id) AS total_orders
 FROM order_t
 GROUP BY 1
 ORDER BY 1;

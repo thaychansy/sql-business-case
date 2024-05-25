@@ -2,8 +2,8 @@ state,state_count
 California,97
 Texas,97
 Florida,86
-"New York",69
-"District of Columbia",35
+New York,69
+District of Columbia,35
 Colorado,33
 Ohio,33
 Alabama,29
@@ -16,7 +16,7 @@ Missouri,23
 Tennessee,23
 Connecticut,22
 Indiana,21
-"North Carolina",20
+North Carolina,20
 Louisiana,20
 Georgia,18
 Minnesota,17
@@ -29,9 +29,9 @@ Kansas,13
 Iowa,11
 Utah,10
 Alaska,10
-"West Virginia",10
-"South Carolina",9
-"New Jersey",9
+West Virginia,10
+South Carolina,9
+New Jersey,9
 Kentucky,8
 Wisconsin,8
 Idaho,7
@@ -40,10 +40,10 @@ Nebraska,7
 Hawaii,6
 Delaware,6
 Arkansas,6
-"New Mexico",5
+New Mexico,5
 Montana,3
-"New Hampshire",3
-"North Dakota",2
+New Hampshire,3
+North Dakota,2
 Mississippi,2
 Maine,1
 Vermont,1
