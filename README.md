@@ -1,6 +1,6 @@
 # SQL Business Case - New Wheels Corp
 
-## Watch the Demo!
+## Watch the Presentation!
 
 
 [![Watch the video](https://github.com/thaychansy/sql-business-case/assets/161902555/935223de-c12f-410f-8878-3c3ea3d55310)](https://youtu.be/HlLSkGlabVY)
