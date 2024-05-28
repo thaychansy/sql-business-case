@@ -3,7 +3,8 @@
 ## Watch the Demo!
 
 
-[![Watch the video](https://github.com/thaychansy/sql-business-case/assets/161902555/e136d339-2789-4138-9a62-62186566db85)](https://youtu.be/HlLSkGlabVY)
+[![Watch the video](https://github.com/thaychansy/sql-business-case/assets/161902555/935223de-c12f-410f-8878-3c3ea3d55310)](https://youtu.be/HlLSkGlabVY)
+
 
 
 # Business Context:
