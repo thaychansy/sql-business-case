@@ -1,4 +1,4 @@
-# SQL Business Case - New Wheels Corp
+# SQL Business Case - New-Wheels Corp
 
 ## Watch the Presentation!
 
