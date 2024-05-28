@@ -1,8 +1,9 @@
 # SQL Business Case - New Wheels Corp
 
+## Watch the Demo!
 
-<img width="509" alt="image" src="https://github.com/thaychansy/sql-business-case/assets/161902555/8dbde26a-caf2-4cdb-82cb-ce6b5a1cfaa1">
 
+[![Watch the video](https://github.com/thaychansy/sql-business-case/assets/161902555/e136d339-2789-4138-9a62-62186566db85)](https://youtu.be/HlLSkGlabVY)
 
 
 # Business Context:
