@@ -1,8 +1,5 @@
 # SQL Business Case - New-Wheels Corp
-<center><p float="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/4_RGB_McCombs_School_Brand_Branded.png" width="300" height="100"/>
-  <img src="https://mma.prnewswire.com/media/1458111/Great_Learning_Logo.jpg?p=facebook" width="200" height="100"/>
-</p></center>
+
 
 ## Watch the Presentation!
 
