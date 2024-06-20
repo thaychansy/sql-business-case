@@ -1,14 +1,15 @@
 # SQL Business Case - New-Wheels Corp
+<center><p float="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/4_RGB_McCombs_School_Brand_Branded.png" width="300" height="100"/>
+  <img src="https://mma.prnewswire.com/media/1458111/Great_Learning_Logo.jpg?p=facebook" width="200" height="100"/>
+</p></center>
 
 ## Watch the Presentation!
 
 
 [![Watch the video](https://github.com/thaychansy/sql-business-case/assets/161902555/935223de-c12f-410f-8878-3c3ea3d55310)](https://youtu.be/HlLSkGlabVY)
 
-<center><p float="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/4_RGB_McCombs_School_Brand_Branded.png" width="300" height="100"/>
-  <img src="https://mma.prnewswire.com/media/1458111/Great_Learning_Logo.jpg?p=facebook" width="200" height="100"/>
-</p></center>
+
 
 # Business Context
 
