@@ -37,6 +37,6 @@ https://github.com/thaychansy/sql-business-case/blob/main/new-wheels-db/Quarterl
 
 # Website
 
-Please visit my Portfolio Page: thaychansy.github.io (https://thaychansy.github.io/)
+Please visit my Portfolio Page: [thaychansy.github.io](https://thaychansy.github.io/)
 
 
