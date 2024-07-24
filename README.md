@@ -28,7 +28,7 @@ The data dictionary (new_wheels_sales.txt), which has detailed descriptions of e
 
 # PowerPoint Presentation
 
-<img width="942" alt="image" src="https://github.com/thaychansy/sql-business-case/assets/161902555/b17f7465-648d-4d52-bcc7-8bc0a27edcd1">
+<img width="1000" alt="image" src="https://github.com/thaychansy/sql-business-case/assets/161902555/b17f7465-648d-4d52-bcc7-8bc0a27edcd1">
 
 
 
