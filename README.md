@@ -4,7 +4,7 @@
 ## Watch the Presentation!
 
 
-[![Watch the video](https://github.com/thaychansy/sql-business-case/assets/161902555/935223de-c12f-410f-8878-3c3ea3d55310)](https://youtu.be/HlLSkGlabVY)
+<kbd> [![Watch the video](https://github.com/thaychansy/sql-business-case/assets/161902555/935223de-c12f-410f-8878-3c3ea3d55310)](https://youtu.be/HlLSkGlabVY) </kbd>
 
 
 
@@ -28,7 +28,7 @@ The data dictionary (new_wheels_sales.txt), which has detailed descriptions of e
 
 # PowerPoint Presentation
 
-<img width="1000" alt="image" src="https://github.com/thaychansy/sql-business-case/assets/161902555/b17f7465-648d-4d52-bcc7-8bc0a27edcd1">
+<kbd> <img width="1000" alt="image" src="https://github.com/thaychansy/sql-business-case/assets/161902555/b17f7465-648d-4d52-bcc7-8bc0a27edcd1"> </kbd>
 
 
 
